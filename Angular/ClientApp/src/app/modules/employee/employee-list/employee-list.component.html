@@ -1,0 +1,48 @@
+<mat-toolbar color="primary">
+  <span>Employee list</span>
+  <span class="spacer"></span>
+  Reload data:
+  <button mat-icon-button (click)="loadData()">
+    <mat-icon>refresh</mat-icon>
+  </button>
+</mat-toolbar>
+
+<table mat-table [fixedLayout]="true" [dataSource]="employees">
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef>Name</th>
+    <td mat-cell *matCellDef="let employee">{{ employee.name }}</td>
+  </ng-container>
+  <ng-container matColumnDef="position">
+    <th mat-header-cell *matHeaderCellDef>Position</th>
+    <td mat-cell *matCellDef="let employee">{{ employee.position }}</td>
+  </ng-container>
+  <ng-container matColumnDef="phone">
+    <th mat-header-cell *matHeaderCellDef>Phone</th>
+    <td mat-cell *matCellDef="let employee">{{ employee.phone }}</td>
+  </ng-container>
+  <ng-container matColumnDef="departmentName">
+    <th mat-header-cell *matHeaderCellDef>Department</th>
+    <td mat-cell *matCellDef="let employee">{{ employee.departmentName }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef>
+      <button mat-icon-button color="primary" (click)="addEmployee()">
+        <mat-icon>add</mat-icon>
+      </button>
+    </th>
+
+    <td mat-cell *matCellDef="let row; let i = index">
+      <button mat-icon-button color="accent" (click)="editEmployee(row.id)">
+        <mat-icon aria-label="Edit">edit</mat-icon>
+      </button>
+
+      <button mat-icon-button color="accent" (click)="deleteEmployee(row.id)">
+        <mat-icon aria-label="Delete">delete</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+  <tr mat-row *matRowDef="let myRowData; columns: columnsToDisplay"></tr>
+</table>

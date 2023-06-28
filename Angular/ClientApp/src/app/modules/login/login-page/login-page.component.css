@@ -1,0 +1,17 @@
+.login-form-flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.button-flex-container {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+
+.hint {
+  font-size: 12px;
+  color: gray;
+}

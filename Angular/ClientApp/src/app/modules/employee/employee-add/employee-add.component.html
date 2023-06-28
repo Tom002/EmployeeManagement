@@ -1,0 +1,136 @@
+<div class="container">
+  <ng-container *ngIf="dataLoaded">
+    <h3 mat-dialog-title>Add new employee</h3>
+
+    <form [formGroup]="addEmployeeForm">
+      <div class="content-container">
+        <mat-form-field appearance="fill">
+          <mat-label>Username</mat-label>
+          <input
+            matInput
+            #message
+            maxlength="100"
+            placeholder="Username"
+            formControlName="username"
+          />
+          <mat-hint align="end">{{ message.value.length }} / 256</mat-hint>
+          <mat-error *ngIf="errorHandling('username', 'required')">
+            Username is required
+          </mat-error>
+          <mat-error *ngIf="errorHandling('name', 'maxlength')">
+            Username can't be longer than 100 characters
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Password</mat-label>
+          <input
+            matInput
+            [type]="hide ? 'password' : 'text'"
+            placeholder="Password"
+            formControlName="password"
+          />
+          <button
+            mat-icon-button
+            matSuffix
+            (click)="hide = !hide"
+            [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hide"
+          >
+            <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+          </button>
+          <mat-error *ngIf="errorHandling('password', 'required')">
+            Password is required
+          </mat-error>
+          <mat-error *ngIf="errorHandling('password', 'minlength')">
+            Password needs to be at least 8 characters
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Name</mat-label>
+          <input matInput placeholder="Name" formControlName="name" />
+          <mat-error *ngIf="errorHandling('name', 'required')">
+            Name is required
+          </mat-error>
+          <mat-error *ngIf="errorHandling('name', 'maxlength')">
+            Name can't be longer than 100 characters
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Position</mat-label>
+          <input matInput placeholder="Position" formControlName="position" />
+          <mat-error *ngIf="errorHandling('position', 'required')">
+            Position is required
+          </mat-error>
+          <mat-error *ngIf="errorHandling('position', 'maxlength')">
+            Position can't be longer than 100 characters
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Phone</mat-label>
+          <span matPrefix> +36 &nbsp;</span>
+          <input
+            matInput
+            type="tel"
+            placeholder="20-123-4567"
+            formControlName="phone"
+          />
+          <mat-error *ngIf="errorHandling('phone', 'required')">
+            Phone is required
+          </mat-error>
+          <mat-error *ngIf="errorHandling('phone', 'maxlength')">
+            Phone can't be longer than 16 characters
+          </mat-error>
+          <mat-error *ngIf="errorHandling('phone', 'pattern')">
+            Has to be valid phone number
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Boss</mat-label>
+          <mat-select formControlName="bossId">
+            <mat-option>None</mat-option>
+            <mat-option
+              *ngFor="let boss of bossSelectOptions"
+              [value]="boss.id"
+            >
+              {{ boss.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Department</mat-label>
+          <mat-select formControlName="departmentId">
+            <mat-option
+              *ngFor="let department of departmentSelectOptions"
+              [value]="department.id"
+            >
+              {{ department.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <div mat-dialog-actions>
+          <button
+            mat-raised-button
+            type="submit"
+            color="primary"
+            [disabled]="!addEmployeeForm.valid"
+            (click)="submitForm()"
+          >
+            Save
+          </button>
+          <button mat-button (click)="cancel()" tabindex="-1">Cancel</button>
+        </div>
+      </div>
+    </form>
+  </ng-container>
+
+  <ng-container *ngIf="!dataLoaded">
+    <div class="spinner-container"><mat-spinner></mat-spinner></div>
+  </ng-container>
+</div>

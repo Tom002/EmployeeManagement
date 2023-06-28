@@ -1,0 +1,40 @@
+<mat-toolbar color="primary">
+  <span>Department list</span>
+  <span class="spacer"></span>
+  Reload data:
+  <button mat-icon-button (click)="loadData()">
+    <mat-icon>refresh</mat-icon>
+  </button>
+</mat-toolbar>
+
+<table mat-table [fixedLayout]="true" [dataSource]="departments">
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef>Name</th>
+    <td mat-cell *matCellDef="let department">{{ department.name }}</td>
+  </ng-container>
+  <ng-container matColumnDef="abbreviation">
+    <th mat-header-cell *matHeaderCellDef>Abbreviation</th>
+    <td mat-cell *matCellDef="let department">{{ department.abbreviation }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef>
+      <button mat-icon-button color="primary" (click)="addDepartment()">
+        <mat-icon>add</mat-icon>
+      </button>
+    </th>
+
+    <td mat-cell *matCellDef="let row; let i = index">
+      <button mat-icon-button color="accent" (click)="editDepartment(row)">
+        <mat-icon aria-label="Edit">edit</mat-icon>
+      </button>
+
+      <button mat-icon-button color="accent" (click)="deleteDepartment(row.id)">
+        <mat-icon aria-label="Delete">delete</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+  <tr mat-row *matRowDef="let myRowData; columns: columnsToDisplay"></tr>
+</table>
