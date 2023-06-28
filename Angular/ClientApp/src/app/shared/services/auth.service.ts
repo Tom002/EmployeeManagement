@@ -1,17 +1,13 @@
 import { Injectable } from '@angular/core';
-import { HttpHeaders } from '@angular/common/http';
 import { LoginResponseDto } from 'src/app/api/app.generated';
+import { JwtHelperService } from '@auth0/angular-jwt';
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  headers = new HttpHeaders().set('Content-Type', 'application/json');
-  currentUser: LoginResponseDto = {};
-
   constructor() {}
 
   setUser(user: LoginResponseDto) {
-    this.currentUser = user;
     localStorage.setItem('access_token', user.token!);
   }
 
@@ -21,7 +17,17 @@ export class AuthService {
 
   doLogout() {
     localStorage.removeItem('access_token');
-    this.currentUser = {};
+  }
+
+  getUser() {
+    const helper = new JwtHelperService();
+    const decoded = helper.decodeToken(this.getToken()!);
+
+    let result: LoginResponseDto = {
+      id: +decoded['Id'],
+      name: decoded['Name'],
+    };
+    return result;
   }
 
   get isLoggedIn(): boolean {
